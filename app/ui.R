@@ -11,6 +11,7 @@ shinyUI(fluidPage(
                 inputId = "plot_type",
                 label = "Plot Type",
                 choices = c("line", "scatter", "both"),
+                selected="both",
                 inline = TRUE
             )
         ),

@@ -1,8 +1,8 @@
 # Starter ggplot function
 
-plot_clicks <- function(ad_clicks, plot_type = "both"){
+plot_clicks <- function(input,ad_clicks, plot_type){
     
-    plot_expr <- switch(plot_type,
+    plot_expr <- switch(input$plot_type,
                         scatter = ggplot2::geom_point(size = 4),
                         line = ggplot2::geom_line(size = 1.2),
                         both = list(ggplot2::geom_line(size = 1.2), 
