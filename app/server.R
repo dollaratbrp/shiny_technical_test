@@ -1,6 +1,7 @@
 library(shiny)
 library(here)
 library(dplyr)
+library(plotly)
 
 source(here("ggplot.R"))
 
@@ -24,7 +25,7 @@ shinyServer(function(input, output) {
                             both = list(ggplot2::geom_line(size = 1.2), 
                                         ggplot2::geom_point(size = 4))
         )
-        
+        ggplotly(
         ad_clicks %>% 
             dplyr::filter(day >= input$dateRange[1] &
                        day<= input$dateRange[2]) %>%
@@ -38,21 +39,21 @@ shinyServer(function(input, output) {
             ggplot2::scale_x_date(date_breaks = "1 week",
                                   date_labels = "%d%b%Y") + 
             ggplot2::labs(
-                x = "",
-                y = "",
-                title = ""
+                x = "Day",
+                y = "Number of Clicks",
+                title = "Number of clicks per day by name"
             ) + 
             ggplot2::guides(col = ggplot2::guide_legend(title = "")) + 
             ggplot2::theme(
                 legend.position = "bottom"
-            )
+            ))
         
     }
     
 
     
     # Create plot output object
-    output$plot <- renderPlot({
+    output$plot <- renderPlotly({
         plot_clicks(ad_clicks)
     })
 

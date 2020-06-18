@@ -21,7 +21,7 @@ shinyUI(fluidPage(
         ),
 
         mainPanel(
-            plotOutput("plot")
+            plotlyOutput("plot")
         )
     )
 ))
