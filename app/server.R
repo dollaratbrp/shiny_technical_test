@@ -9,6 +9,15 @@ shinyServer(function(input, output) {
 
     options(stringsAsFactors = FALSE)
     
+    daterange<- eventReactive(input$submitbtn,{
+        input$dateRange
+    })
+    
+    plottype<- eventReactive(input$submitbtn, {
+        input$plot_type
+    })
+        
+    
     # Import data
     ad_clicks <- read.csv(here("ad_clicks.csv")) %>%
         mutate(day = as.Date(day))
@@ -19,7 +28,7 @@ shinyServer(function(input, output) {
     
     plot_clicks <- function(ad_clicks, plot_type){
         
-        plot_expr <- switch(input$plot_type,
+        plot_expr <- switch(plottype(),
                             scatter = ggplot2::geom_point(size = 4),
                             line = ggplot2::geom_line(size = 1.2),
                             both = list(ggplot2::geom_line(size = 1.2), 
@@ -27,8 +36,8 @@ shinyServer(function(input, output) {
         )
         ggplotly(
         ad_clicks %>% 
-            dplyr::filter(day >= input$dateRange[1] &
-                       day<= input$dateRange[2]) %>%
+            dplyr::filter(day >= daterange()[1] &
+                       day<= daterange()[2]) %>%
             dplyr::group_by(name, day) %>% 
             dplyr::summarise(clicks = sum(clicks)) %>% 
             dplyr::ungroup() %>% 

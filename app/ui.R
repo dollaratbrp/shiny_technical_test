@@ -17,7 +17,8 @@ shinyUI(fluidPage(
             dateRangeInput('dateRange',
                            label="Select a date range",
                            start=as.Date('2019-05-01'), end= as.Date('2019-06-10'),
-                           min= as.Date('2019-05-01'), max= as.Date('2019-06-10'))
+                           min= as.Date('2019-05-01'), max= as.Date('2019-06-10')),
+            actionButton("submitbtn","Submit")
         ),
 
         mainPanel(
