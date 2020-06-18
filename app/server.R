@@ -8,6 +8,14 @@ shinyServer(function(input, output) {
 
     options(stringsAsFactors = FALSE)
     
+    # Import data
+    ad_clicks <- read.csv(here("ad_clicks.csv")) %>%
+        mutate(day = as.Date(day))
+    
+    output$dateRange<- renderUI({
+        dateRangeInput(inputId = 'dateRange')
+    })
+    
     plot_clicks <- function(ad_clicks, plot_type){
         
         plot_expr <- switch(input$plot_type,
@@ -18,6 +26,8 @@ shinyServer(function(input, output) {
         )
         
         ad_clicks %>% 
+            dplyr::filter(day >= input$dateRange[1] &
+                       day<= input$dateRange[2]) %>%
             dplyr::group_by(name, day) %>% 
             dplyr::summarise(clicks = sum(clicks)) %>% 
             dplyr::ungroup() %>% 
@@ -39,9 +49,7 @@ shinyServer(function(input, output) {
         
     }
     
-    # Import data
-    ad_clicks <- read.csv(here("ad_clicks.csv")) %>%
-        mutate(day = as.Date(day))
+
     
     # Create plot output object
     output$plot <- renderPlot({
