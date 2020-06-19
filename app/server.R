@@ -1,9 +1,9 @@
 library(shiny)
 library(here)
 library(dplyr)
-library(plotly)
 
-source(here("ggplot.R"))
+
+# source(here("ggplot.R"))
 
 shinyServer(function(input, output) {
 
